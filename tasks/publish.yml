@@ -1,0 +1,17 @@
+---
+- fetch:
+    src: "/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/{{ kismet_rpi_build_id }}_{{ kismet_rpi_build_version }}_{{ kismet_rpi_build_architecture }}.deb"
+    dest: "{{ kismet_rpi_build_localmirror_dir_name_local }}"
+    flat: yes
+
+- file:
+    path: /var/www/html/{{ kismet_rpi_build_localmirror_dir_name_www }}
+    state: directory
+    recurse: yes
+
+- copy:
+    src: "/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/{{ kismet_rpi_build_id }}_{{ kismet_rpi_build_version }}_{{ kismet_rpi_build_architecture }}.deb"
+    dest: "/var/www/html/{{ kismet_rpi_build_localmirror_dir_name_www }}/{{ kismet_rpi_build_id }}_{{ kismet_rpi_build_version }}_{{ kismet_rpi_build_architecture }}.deb"
+    remote_src: true
+  notify:
+      - restart apache

@@ -1,0 +1,31 @@
+---
+dependencies:
+  - role: geerlingguy.apache
+    apache_listen_ip: "*"
+    apache_listen_port: 80
+    apache_remove_default_vhost: true
+    apache_vhosts:
+      - servername: "{{ ansible_eth0['ipv4']['address'] }}"
+        documentroot: "/var/www/html"
+        allow_override: "all"
+        options: "+Indexes +FollowSymLinks"
+    apache_state: started
+
+galaxy_info:
+  author: Roger Carhuatocto
+  description: An Ansible Role that builds / compiles from scratch, packs, installs and runs Kismet on a Raspberry Pi.
+  company: HolisticSecurity.io
+  license: license (MIT)
+  min_ansible_version: 2.0
+  platforms:
+    - name: Debian, Raspbian
+      versions:
+        - wheezy
+        - jessie
+  galaxy_tags:
+    - wardriving
+    - monitoring
+    - sniffing
+    - security
+    - system
+    - iot

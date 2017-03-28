@@ -1,0 +1,8 @@
+---
+### src tarball / build
+kismet_rpi_build_url_to_src: "{{ kismet_rpi_build_src_www_path }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}.{{ kismet_rpi_build_src_ext }}"
+kismet_rpi_build_version: "{{ kismet_rpi_build_version_number }}-{{ kismet_rpi_build_version_release }}"
+
+### compile / checkinstall
+kismet_rpi_build_checkinstall_deldoc: true
+kismet_rpi_build_checkinstall_nodoc: true

@@ -1,0 +1,28 @@
+#!/bin/sh
+# Shell script to run parametrized CheckInstall
+# by Chilcano
+
+checkinstall \
+ --maintainer="Chilcano \\<chilcano@intix.info\\>" \
+ --pkgname="{{ kismet_rpi_build_id }}" \
+ --pkgversion="{{ kismet_rpi_build_version_number }}" \
+ --pkgrelease="{{ kismet_rpi_build_version_release }}" \
+ --pkglicense="GPL" \
+ --pkggroup="net" \
+ --pkgarch="{{ kismet_rpi_build_architecture }}" \
+ --pkgsource="https://www.kismetwireless.net/kismet.git" \
+ --pkgaltsource="http://www.kismetwireless.net/index.shtml" \
+ --requires="libncurses5-dev,libpcap-dev,libpcre3-dev,libnl-dev" \
+ --provides="{{ kismet_rpi_build_id }}" \
+ --deldesc=no \
+ --delspec=yes \
+ --backup=no \
+ --reset-uids=yes \
+ --deldoc=yes \
+ --nodoc \
+ --install=no \
+ --fstrans=no \
+ --showinstall=no \
+ --backup=no \
+ -D \
+ -d0 make suidinstall
