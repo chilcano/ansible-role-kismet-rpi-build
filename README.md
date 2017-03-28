@@ -81,9 +81,7 @@ The `inventory` file contains:
 
 [pibuilder:vars]
 ansible_ssh_user=picuy
-```
-
-
+```
 
 ## License
 
