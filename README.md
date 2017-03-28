@@ -1,6 +1,6 @@
 # Ansible Role: kismet-rpi-build
 
-An Ansible Role that builds / compiles from scratch and packs (Debian/Raspbian binary) (Kismet)[http://www.kismetwireless.net] on a Raspberry Pi.
+An Ansible Role that builds / compiles from scratch and packs (Debian/Raspbian binary) [Kismet](http://www.kismetwireless.net) on a Raspberry Pi.
 This Role provides the following features:
 
 - Download the Kismet source code.
@@ -60,7 +60,7 @@ Opened /Users/Chilcano/.ansible_galaxy
 
 ## Example Playbook
 
-- Using the Ansible Role in a Raspberry Pi (rpi_1) for building/compiling:
+Using the Ansible Role in a Raspberry Pi for building/compiling:
 
 ```
 ---
@@ -74,10 +74,21 @@ Opened /Users/Chilcano/.ansible_galaxy
     - { role: chilcano.kismet-rpi-build }
 ```
 
+The `inventory` file contains:
+```
+[pibuilder]
+192.168.1.204
+
+[pibuilder:vars]
+ansible_ssh_user=picuy
+```
+
+
+
 ## License
 
 MIT / BSD
 
 ## Author Information
 
-This role was created in 2017 by Roger Carhuatocto <chilcano@intix.info>, author of (HolisticSecurity.io Blog)[https://holisticsecurity.io].
+This role was created in 2017 by Roger Carhuatocto <chilcano@intix.info>, author of [HolisticSecurity.io Blog](https://holisticsecurity.io).
