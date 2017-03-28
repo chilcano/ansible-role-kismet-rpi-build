@@ -107,9 +107,3 @@
 - name: Publish and copy 'deb' from RPi to 'host' and HTTPd 'localmirror'.
   include: publish.yml
   when: ({{ kismet_rpi_build_publish }})
-
-- debug:
-    msg: >+
-      The Kismet binary was published. The HTTPd localmirror is running:
-      'http://({{ ansible_hostname }}|{{ ansible_eth0["ipv4"]["address"] }})/{{ localmirror_dir_name }}/<pkg-name-here>'
-  when: ({{ kismet_rpi_build_publish }})

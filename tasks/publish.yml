@@ -15,3 +15,8 @@
     remote_src: true
   notify:
       - restart apache
+
+- debug:
+    msg: >+
+      The Kismet binary was published. The HTTPd localmirror is running:
+      'http://({{ ansible_hostname }}|{{ ansible_eth0["ipv4"]["address"] }})/{{ localmirror_dir_name }}/<pkg-name-here>'
