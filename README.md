@@ -89,4 +89,4 @@ MIT / BSD
 
 ## Author Information
 
-This role was created in 2017 by Roger Carhuatocto <chilcano@intix.info>, author of [HolisticSecurity.io Blog](https://holisticsecurity.io).
+This role was created in 2017 by [Roger Carhuatocto](https://www.linkedin.com/in/rcarhuatocto), author of [HolisticSecurity.io Blog](https://holisticsecurity.io).
