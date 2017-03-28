@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - role: "geerlingguy.apache"
+  - src: "geerlingguy.apache"
     apache_listen_ip: "*"
     apache_listen_port: 80
     apache_remove_default_vhost: true
