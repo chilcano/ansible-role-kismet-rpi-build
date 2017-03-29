@@ -4,7 +4,7 @@
   when: ({{ kismet_rpi_build_clean }})
 
 - name: Build Kismet from src tarball.
-  include: publish.yml
+  include: build.yml
   when: ({{ kismet_rpi_build_build }})
 
 - name: Publish and copy 'deb' from RPi to 'host' and HTTPd 'localmirror'.
