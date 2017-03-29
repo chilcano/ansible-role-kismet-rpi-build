@@ -21,4 +21,4 @@
 - debug:
     msg: >+
       The Kismet binary was published. The HTTPd localmirror is running:
-      'http://({{ ansible_hostname }}|{{ ansible_eth0["ipv4"]["address"] }})/{{ localmirror_dir_name }}/<pkg-name-here>'
+      'http://({{ ansible_hostname }}|{{ ansible_eth0["ipv4"]["address"] }})/{{ kismet_rpi_build_localmirror_dir_name_www }}/<pkg-name-here>'
