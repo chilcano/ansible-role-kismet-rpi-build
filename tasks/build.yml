@@ -1,0 +1,109 @@
+---
+- debug: msg="(( Building Kismet from src tarball. ))"
+
+- name: Clean previous Kismet installation and generated files.
+  include: clean.yml
+  when: ({{ kismet_rpi_build_clean }})
+
+- name: Check if Kismet src tarball has already been downloaded.
+  stat: path="/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}.{{ kismet_rpi_build_src_ext }}"
+  register: my_kismet_tarball
+
+- name: "Download Kismet src tarball from here {{ kismet_rpi_build_url_to_src }}."
+  get_url:
+    url: "{{ kismet_rpi_build_url_to_src }}"
+    dest: "/home/{{ ansible_ssh_user }}/"
+  when: not my_kismet_tarball.stat.exists
+
+- name: Unarchive Kismet src tarball.
+  unarchive:
+    src: "/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}.{{ kismet_rpi_build_src_ext }}"
+    dest: "/home/{{ ansible_ssh_user }}/"
+    copy: no
+
+- name: Update Raspberry Pi.
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 360000  # 100 hours
+
+- name: Install dependencies before building Kismet.
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libncurses5-dev
+    - libpcap-dev
+    - libpcre3-dev
+    - libnl-dev
+
+- debug: msg="Starting Kismet compilation."
+
+- name: Check if Makefile has already been created.
+  stat: path="/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/Makefile"
+  register: my_makefile
+
+- name: Create Makefile.
+  command: ./configure
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}
+
+- name: Make dependencies.
+  command: make dep
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}
+
+- name: Make plugins.
+  command: make plugins
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}
+
+- debug: msg="The next process (make) will take long time ... grab one coffee."
+
+- name: Make objects.
+  command: make
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}
+
+- name: Delete 'docs' and 'doc-pack' folders.
+  file:
+    path: "/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/{{ item }}"
+    state: absent
+  with_items:
+    - docs
+    - doc-pak
+  when: ({{ kismet_rpi_build_checkinstall_deldoc }}) and ({{ kismet_rpi_build_checkinstall_nodoc }})
+
+- name: Delete 'kismet.conf' and 'kismet_drone.conf' files placed for 'make install' previously.
+  file:
+    path: "/usr/local/etc/{{ item }}"
+    state: absent
+  with_items:
+    - kismet.conf
+    - kismet_drone.conf
+
+- name: Copy 'description-pak' file.
+  template:
+    src: templates/description-pak.j2
+    dest: "/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/description-pak"
+
+- name: Copy 'checkinstall.sh' file.
+  template:
+    src: templates/checkinstall.sh.j2
+    dest: "/home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/checkinstall.sh"
+    mode: 0750
+
+- name: Run 'checkinstall.sh' and 'make install'.
+  command: >
+    /bin/bash -c 'echo | /home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}/checkinstall.sh'
+  args:
+    chdir: /home/{{ ansible_ssh_user }}/{{ kismet_rpi_build_id }}-{{ kismet_rpi_build_version }}
+    creates: "{{ kismet_rpi_build_id }}_{{ kismet_rpi_build_version }}_{{ kismet_rpi_build_architecture }}.deb"
+  when: ({{ kismet_rpi_build_checkinstall_deldoc }}) and ({{ kismet_rpi_build_checkinstall_nodoc }})
+
+#### repeat same process to get .deb for kismet-plugins
+#### https://gist.github.com/mapcentia/1f2d8a6b4369beb1c930
+
+- name: Publish and copy 'deb' from RPi to 'host' and HTTPd 'localmirror'.
+  include: publish.yml
+  when: ({{ kismet_rpi_build_publish }})

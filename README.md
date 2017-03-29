@@ -18,8 +18,9 @@ Default variables are in `defaults/main.yml` and `vars/main.yml`.
 
 ### Actions to be executed
 ```
-kismet_rpi_build_publish: true
 kismet_rpi_build_clean: true
+kismet_rpi_build_publish: true
+kismet_rpi_build_build: true
 ```
 
 ### Variables used to download `src tarball` and `build`.

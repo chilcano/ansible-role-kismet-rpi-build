@@ -1,4 +1,6 @@
 ---
+- debug: msg="(( Cleaning Kismet and dependencies. ))"
+
 - name: Check if '{{ kismet_rpi_build_warpi_service_name }}.service' systemd file exists.
   stat: path="/etc/systemd/system/{{ kismet_rpi_build_warpi_service_name }}.service"
   register: my_systemd_service_file
