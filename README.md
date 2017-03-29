@@ -16,8 +16,14 @@ This Role provides the following features:
 
 Default variables are in `defaults/main.yml` and `vars/main.yml`.
 
+### Actions to be executed
+```
+kismet_rpi_build_publish: true
+kismet_rpi_build_clean: true
+```
+
 ### Variables used to download `src tarball` and `build`.
-````
+```
 kismet_rpi_build_id: "kismet"
 kismet_rpi_build_version: "2016-07-R1"
 kismet_rpi_build_version_number: "2016-07"
@@ -25,7 +31,7 @@ kismet_rpi_build_version_release: "R1"
 kismet_rpi_build_src_ext: "tar.xz"
 kismet_rpi_build_src_www_path: "http://www.kismetwireless.net/code"
 kismet_rpi_build_architecture: "armhf"
-````
+```
 
 ### Variables used in `publish`.
 ```
